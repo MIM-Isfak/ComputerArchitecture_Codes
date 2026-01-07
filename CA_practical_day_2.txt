@@ -1,0 +1,48 @@
+# Use .set noreorder to prevent the assembler from filling branch
+# delay slots, if you want to fill delay slots manually.
+# .set noreorder
+.data
+message: .asciiz "sum = "
+
+.text
+.global _start
+_start:
+	jal main
+	li $v0, 10
+	syscall		# Use syscall 10 to stop simulation
+
+main:
+	#read number 1
+	li $v0,5
+	syscall
+	move $t1, $v0
+	
+	#read number 2
+	li $v0,5
+	syscall
+	move $t2, $v0
+	
+	#read number 3
+	li $v0,5
+	syscall
+	move $t3, $v0
+	
+	#add numbers
+	add $t4,$t1,$t2
+	add $t4,$t4,$t3
+	
+	#print "sum ="
+	la $a0,message
+	li $v0,4
+	syscall
+	
+	move $a0,$t4
+	li $v0,1
+	syscall
+	
+	li $v0,10
+	syscall
+	
+	
+	
+	

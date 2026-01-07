@@ -1,0 +1,73 @@
+.data
+string1: .asciiz "Hello, this is my 1st Assemply program\n"
+string2: .asciiz "Hello, this is my 2nd Assemply program\n"
+string3: .asciiz "Hello, this is my 3rd Assemply program\n"
+
+.text
+.global _start
+_start:
+	jal main
+	li $v0, 10
+	syscall		#Use syscall 10 to stop simulation
+
+main:
+	la $a0, string1 # load address of string to be printed into $a0
+	li $v0, 4 #code for printing string is 4
+	syscall #call operating system to perform print operation
+	
+	la $a0, string2
+	li $v0, 4
+	syscall
+	
+	la $a0, string3
+	li $v0, 4
+	syscall
+	
+	----------------------------------------------------
+	
+	# Use .set noreorder to prevent the assembler from filling branch
+# delay slots, if you want to fill delay slots manually.
+# .set noreorder
+.data
+string1: .asciiz "Name: "
+string2: .asciiz "Mohanathas\n"
+string3: .asciiz "Address: "
+string4: .asciiz "Jaffna\n"
+string5: .asciiz "Age: "
+age: .word 20
+
+.text
+.global _start
+_start:
+	jal main
+	li $v0, 10
+	syscall		
+
+main:
+	la $a0, string1
+	li $v0, 4
+	syscall 
+	
+	la $a0, string2
+	li $v0, 4
+	syscall
+	
+	la $a0, string3
+	li $v0, 4
+	syscall
+	
+	la $a0, string4
+	li $v0, 4
+	syscall
+	
+	la $a0, string5
+	li $v0, 4
+	syscall
+	
+	lw $a0, age
+	li $v0, 1
+	syscall
+	
+	li $v0, 10
+	syscall
+	
