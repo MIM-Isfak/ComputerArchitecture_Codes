@@ -1,3 +1,36 @@
+
+----------------------------------Read and Print------------------------------------------
+
+.data
+name: .space 20
+output1: .asciiz "Hello "
+output2: .asciiz "Welcome to Assembly Language programming!"
+
+.text
+
+main:
+	la $a0,name
+	li $a1,20
+	li $v0,8
+	syscall
+	
+	la $a0,output1
+	li $v0,4
+	syscall
+	
+	la $a0,name
+	li $v0,4
+	syscall
+	
+	la $a0,output2
+	li $v0,4
+	syscall
+	
+	li $v0, 10
+	syscall
+	
+
+----------------------------------Read 3 integers and find Total-----------------------------
 # Use .set noreorder to prevent the assembler from filling branch
 # delay slots, if you want to fill delay slots manually.
 # .set noreorder
@@ -45,4 +78,5 @@ main:
 	
 	
 	
+
 	
