@@ -31,6 +31,8 @@ main:
 	
 
 ----------------------------------Read 3 integers and find Total-----------------------------
+[mathod-1]
+
 # Use .set noreorder to prevent the assembler from filling branch
 # delay slots, if you want to fill delay slots manually.
 # .set noreorder
@@ -75,8 +77,135 @@ main:
 	
 	li $v0,10
 	syscall
+
+[mathod-2]
+
+# Use .set noreorder to prevent the assembler from filling branch
+# delay slots, if you want to fill delay slots manually.
+# .set noreorder
+.data
+nums: .space 12 #space for 3 integers 3x4=12
+msg: .asciiz "Enter a number: "
+output: .asciiz "Sum = "
+
+.text
+.global _start
+_start:
+	jal main
+	li $v0, 10
+	syscall		# Use syscall 10 to stop simulation
+
+main:
+	la $a1, nums
+
+   
+    li $v0, 4
+    la $a0, msg
+    syscall
+
+    li $v0, 5
+    syscall
+    sw $v0, 0($a1)
+
+   
+    li $v0, 4
+    la $a0, msg
+    syscall
+
+    li $v0, 5
+    syscall
+    sw $v0, 4($a1)
+
+   
+    li $v0, 4
+    la $a0, msg
+    syscall
+
+    li $v0, 5
+    syscall
+    sw $v0, 8($a1)
+
+    #Compute sum
+    lw $t0, 0($a1)
+    lw $t1, 4($a1)
+    lw $t2, 8($a1)
+
+    add $t3, $t0, $t1
+    add $t3, $t3, $t2 
+
+    #Print sum 
+    li $v0, 4
+    la $a0, output
+    syscall
+
+    move $a0, $t3
+    li $v0, 1
+    syscall
 	
+	li $v0, 10
+    syscall
+
+
+	------------------------------Read 5 numbers and store them in an array-------------------
+	# Use .set noreorder to prevent the assembler from filling branch
+# delay slots, if you want to fill delay slots manually.
+# .set noreorder
+.data
+numarray: .word 0,0,0,0,0  #5 integers initialized to 0
+msg1: .asciiz "Enter a number: "
+msg2: .asciiz "Entered numbers are: "
+.text
+.global _start
+_start:
+	jal main
+	li $v0, 10
+	syscall		# Use syscall 10 to stop simulation
+
+main:
+	la $a1, numarray
+
+	li $v0, 4
+    la $a0, msg1
+    syscall
+	# store first number
+    li $v0, 5
+    syscall
+    sw $v0, 0($a1)
+
+	li $v0, 4
+    la $a0, msg1
+    syscall
+    # store second number
+    li $v0, 5
+    syscall
+    sw $v0, 4($a1)
 	
+	li $v0, 4
+    la $a0, msg1
+    syscall
+    # store third number
+    li $v0, 5
+    syscall
+    sw $v0, 8($a1)
+
+	li $v0, 4
+    la $a0, msg1
+    syscall
+	# store fourth number
+	li $v0, 5
+    syscall
+    sw $v0, 12($a1)
 	
+	li $v0, 4
+    la $a0, msg1
+    syscall
+	# store fifth number
+	li $v0, 5
+    syscall
+    sw $v0,16($a1)
+	
+    li $v0, 10
+    syscall
 
 	
+
