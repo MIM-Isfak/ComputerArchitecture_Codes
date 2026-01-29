@@ -97,17 +97,18 @@ comma:   .asciiz ", "
 .globl main
 
 main:
-    # Print "Sequence:"
-    la  $a0, string1
-    li  $v0, 4          # print string
-    syscall
-
+   
     # Read integer n
     li  $v0, 5          # read integer
     syscall
     move $t1, $v0       # t1 = n
 
-    move $t0, $zero     # t0 = 0 (counter)
+	move $t0, $zero     # t0 = 0 (counter)
+
+ 	# Print "Sequence:"
+    la  $a0, string1
+    li  $v0, 4          # print string
+    syscall
 
 loop:
     # Print current number
