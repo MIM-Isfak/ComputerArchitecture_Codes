@@ -187,3 +187,77 @@ loop:
 end:
     li $v0, 10
     syscall     
+
+-------------------------------------------Read three integers n1, n2, n3 and print all the numbers from n1 to n2 incremented by n3---------------------------------------------
+
+# Use .set noreorder to prevent the assembler from filling branch
+# delay slots, if you want to fill delay slots manually.
+# .set noreorder
+.data
+inp1: .asciiz "input1: "
+inp2: .asciiz "input2: "
+inp3: .asciiz "input3: "
+space: .asciiz " "
+output:  .asciiz "Output: "
+
+.text
+
+.global _start
+_start:
+	jal main
+	li $v0, 10
+	syscall		# Use syscall 10 to stop simulation
+
+main:
+	# read num1
+	la $a0, inp1
+	li $v0, 4
+	syscall
+	
+	li $v0, 5
+	syscall
+	move $t0, $v0
+	
+	# read num2
+	la $a0, inp2
+	li $v0, 4
+	syscall
+	
+	li $v0, 5
+	syscall
+	move $t1, $v0
+	
+	# read num3
+	la $a0, inp3
+	li $v0, 4
+	syscall
+	
+	li $v0, 5
+	syscall
+	move $t2, $v0
+	
+	# --- Print output label ---
+    li $v0, 4
+    la $a0, output
+    syscall
+	
+	move $t3, $t0      # t3 = current number (start from n1)
+	
+	loop:
+    ble $t1, $t3, end  # if current > n2, end loop
+    li $v0, 1          # print integer
+    move $a0, $t3
+    syscall
+
+    add $t3, $t3, $t2  
+
+	la $a0, space
+	li $v0, 4
+	syscall
+
+    ble $t3, $t1, loop 
+    
+
+end:
+    li $v0, 10    
+    syscall
