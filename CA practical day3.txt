@@ -264,3 +264,61 @@ main:
 end:
     li $v0, 10    
     syscall
+
+-----------------------------------Read three integers n1, n2, n3 and print the total of all the numbers from n1 to n2 incremented by n3 and the count of these numbers---------------------------
+
+.data
+space:   .asciiz " "
+
+.text
+
+.globl main
+
+main:
+
+    # Read n1
+    li $v0, 5
+    syscall
+    move $t0, $v0      
+
+    # Read n2
+    li $v0, 5
+    syscall
+    move $t1, $v0      
+
+   # Read n3
+    li $v0, 5
+    syscall
+    move $t2, $v0      
+
+    li $t3, 0          
+    li $t4, 0  
+
+loop:
+
+ 	bgt $t0, $t1, done   # if current > n2 → exit loop
+	
+    add $t3, $t3, $t0    # sum += current
+    addi $t4, $t4, 1     # count++
+    add $t0, $t0, $t2    # current += n3
+    j loop
+
+done:
+    # Print sum
+    li $v0, 1
+    move $a0, $t3
+    syscall
+
+    # Print space
+    li $v0, 4
+    la $a0, space
+    syscall
+
+    # Print count
+    li $v0, 1
+    move $a0, $t4
+    syscall
+
+    # Exit
+    li $v0, 10
+    syscall
