@@ -296,7 +296,7 @@ main:
 
 loop:
 
- 	bgt $t0, $t1, done   # if current > n2 → exit loop
+ 	bgt $t0, $t1, done   # if current($t0) > n2($t1) → exit loop
 	
     add $t3, $t3, $t0    # sum += current
     addi $t4, $t4, 1     # count++
