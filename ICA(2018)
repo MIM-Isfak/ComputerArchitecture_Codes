@@ -51,3 +51,131 @@ syscall
 
 li $v0,10
 syscall
+
+02)
+.data
+pre: .asciiz "Hello "
+inp: .space 20
+comma: .asciiz ", "
+pos: .asciiz "Welcome to Assembly Language Programming."
+
+.text
+.globl main
+
+main:
+
+# read name
+li $v0,8
+la $a0,inp
+li $a1,20
+syscall
+
+# remove newline
+la $t0,inp
+
+loop:
+lb $t1,0($t0)
+beq $t1,$zero,done
+beq $t1,10,replace
+addi $t0,$t0,1
+j loop
+
+replace:
+sb $zero,0($t0)
+
+done:
+
+# print Hello
+li $v0,4
+la $a0,pre
+syscall
+
+# print name
+li $v0,4
+la $a0,inp
+syscall
+
+# print comma
+li $v0,4
+la $a0,comma
+syscall
+
+# print message
+li $v0,4
+la $a0,pos
+syscall
+
+# exit
+li $v0,10
+syscall
+
+03)
+.data
+    prompt:  .asciiz "Enter a string: "
+    msg_long: .asciiz "The given string is long enough."
+    msg_short: .asciiz "The given string is short."
+    newline: .asciiz "\n"
+    inp:     .space 50
+
+.text
+.globl main
+
+main:
+    # ── Prompt user ───────────────────────────
+    li  $v0, 4
+    la  $a0, prompt
+    syscall
+
+    # ── Read string input ─────────────────────
+    li  $v0, 8
+    la  $a0, inp
+    li  $a1, 50
+    syscall
+
+    # ── Remove newline ────────────────────────
+    la  $t0, inp
+remove_nl:
+    lb  $t1, 0($t0)
+    beq $t1, $zero, done_nl
+    beq $t1, 10, replace_nl
+    addi $t0, $t0, 1
+    j   remove_nl
+replace_nl:
+    sb  $zero, 0($t0)
+done_nl:
+
+    # ── Count string length ───────────────────
+    la  $t0, inp          # pointer to start of string
+    li  $t2, 0            # counter = 0
+
+count_loop:
+    lb  $t1, 0($t0)       # load current character
+    beq $t1, $zero, done_count  # if \0 → stop counting
+    addi $t2, $t2, 1      # counter++
+    addi $t0, $t0, 1      # move to next character
+    j   count_loop
+
+done_count:
+    # $t2 now holds the length
+
+    # ── Check if length > 9 ───────────────────
+    bgt $t2, 9, print_long    # if length > 9 → jump to print_long
+
+print_short:
+    li $v0, 4
+    la $a0, msg_short         # "The given string is short."
+    syscall
+    j  exit
+
+print_long:
+    li  $v0, 4
+    la  $a0, msg_long          # "The given string is long enough."
+    syscall
+	j exit
+exit:
+    li  $v0, 4
+    la  $a0, newline
+    syscall
+
+    li  $v0, 10
+    syscall
