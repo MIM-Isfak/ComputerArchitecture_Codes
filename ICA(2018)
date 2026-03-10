@@ -1,0 +1,53 @@
+01)
+.data
+msg1:.asciiz "Enter the name: "
+msg2:.asciiz "Enter the Registration number: "
+msg3:.asciiz "Your name: "
+msg4:.asciiz "Your Registration number: "
+size1:.space 50
+size2:.space 50
+newline:.asciiz "\n"
+.text
+
+main:
+#entername
+li $v0,4
+la $a0,msg1
+syscall
+#readname
+li $v0,8
+la $a0,size1
+li $a1,50
+syscall
+#enter regnumber
+li $v0,4
+la $a0,msg2
+syscall
+#readregnumber
+li $v0,8
+la $a0,size2
+li $a1,50
+syscall
+
+li $v0, 4
+la $a0, newline
+syscall
+
+li $v0,4
+la $a0,msg3
+syscall
+#printname
+li $v0,4
+la $a0,size1
+syscall
+
+li $v0,4
+la $a0,msg4
+syscall
+#printregnumber
+li $v0,4
+la $a0,size2
+syscall
+
+li $v0,10
+syscall
